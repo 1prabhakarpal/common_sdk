@@ -9,15 +9,15 @@ import org.springframework.core.annotation.Order;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import com.common.sdk.common_sdk.constants.ApplicationConstants;
+
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 @Order(Ordered.HIGHEST_PRECEDENCE)
-public class CorrelationFilter extends OncePerRequestFilter {
-
-    private static final String CORRELATION_ID = "x-correlation-id";
+public class CorrelationFilter extends OncePerRequestFilter implements ApplicationConstants {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
