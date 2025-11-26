@@ -10,15 +10,19 @@
 	</parent>
 	<groupId>com.common.sdk</groupId>
 	<artifactId>common_sdk</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.1</version>
 	<name>Common SDK</name>
-	<description>Demo project for Spring Boot</description>
-	<url/>
+	<description>A shared Spring Boot library providing standardized API responses, global exception handling, and utility components for microservices.</description>
+	<url>https://github.com/1prabhakarpal/common_sdk</url>
 	<licenses>
 		<license/>
 	</licenses>
 	<developers>
-		<developer/>
+		<developer>
+			<id>1prabhakarpal</id>
+			<name>Prabhakar PAl</name>
+			<url>https://github.com/1prabhakarpal</url>
+		</developer>
 	</developers>
 	<scm>
 		<connection>scm:git:git://github.com/1prabhakarpal/common_sdk.git</connection>
