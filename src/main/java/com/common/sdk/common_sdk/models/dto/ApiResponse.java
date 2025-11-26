@@ -6,6 +6,12 @@ import com.common.sdk.common_sdk.models.interfaces.ResponseCode;
 
 import lombok.Getter;
 
+/**
+ * @author PRABHAKAR PAL
+ * @version 1.0
+ * @since 2025-11-25
+ * @implNote This class is used to store api response in the application.
+ */
 @Getter
 public class ApiResponse<R> implements GenericApiResponse<R>, ApplicationConstants {
 
@@ -18,6 +24,13 @@ public class ApiResponse<R> implements GenericApiResponse<R>, ApplicationConstan
     private ApiResponse() {
     }
 
+    /**
+     * @implNote This method is used to create success response.
+     * @param data
+     * @param responseCode
+     * @param requestId
+     * @return ApiResponse<R>
+     */
     public static <R> ApiResponse<R> success(R data, ResponseCode responseCode, String requestId) {
         ApiResponse<R> response = new ApiResponse<>();
         response.success = true;
@@ -27,10 +40,23 @@ public class ApiResponse<R> implements GenericApiResponse<R>, ApplicationConstan
         return response;
     }
 
+    /**
+     * @implNote This method is used to create success response.
+     * @param responseCode
+     * @param requestId
+     * @return ApiResponse<R>
+     */
     public static <R> ApiResponse<R> success(ResponseCode responseCode, String requestId) {
         return success(null, responseCode, requestId);
     }
 
+    /**
+     * @implNote This method is used to create failure response.
+     * @param responseCode
+     * @param message
+     * @param requestId
+     * @return ApiResponse<R>
+     */
     public static <R> ApiResponse<R> failure(ResponseCode responseCode, String message, String requestId) {
         ApiResponse<R> response = new ApiResponse<>();
         response.success = false;
@@ -40,10 +66,23 @@ public class ApiResponse<R> implements GenericApiResponse<R>, ApplicationConstan
         return response;
     }
 
+    /**
+     * @implNote This method is used to create failure response.
+     * @param responseCode
+     * @param requestId
+     * @return ApiResponse<R>
+     */
     public static <R> ApiResponse<R> failure(ResponseCode responseCode, String requestId) {
         return failure(responseCode, EMPTY_STRING, requestId);
     }
 
+    /**
+     * @implNote This method is used to create failure response.
+     * @param code
+     * @param message
+     * @param requestId
+     * @return ApiResponse<R>
+     */
     public static <R> ApiResponse<R> failure(int code, String message, String requestId) {
         ApiResponse<R> response = new ApiResponse<>();
         response.success = false;

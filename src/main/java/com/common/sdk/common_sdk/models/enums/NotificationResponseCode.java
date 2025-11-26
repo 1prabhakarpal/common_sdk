@@ -4,6 +4,12 @@ import com.common.sdk.common_sdk.models.interfaces.ResponseCode;
 
 import lombok.Getter;
 
+/**
+ * @author PRABHAKAR PAL
+ * @version 1.0
+ * @since 2025-11-25
+ * @implNote This enum is used to store response codes in the application.
+ */
 @Getter
 public enum NotificationResponseCode implements ResponseCode {
     SUCCESS(200, "Notification sent successfully"),
