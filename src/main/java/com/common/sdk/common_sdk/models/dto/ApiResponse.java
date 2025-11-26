@@ -43,4 +43,13 @@ public class ApiResponse<R> implements GenericApiResponse<R>, ApplicationConstan
     public static <R> ApiResponse<R> failure(ResponseCode responseCode, String requestId) {
         return failure(responseCode, EMPTY_STRING, requestId);
     }
+
+    public static <R> ApiResponse<R> failure(int code, String message, String requestId) {
+        ApiResponse<R> response = new ApiResponse<>();
+        response.success = false;
+        response.code = code;
+        response.errorMessage = message;
+        response.requestId = requestId;
+        return response;
+    }
 }
