@@ -36,7 +36,20 @@ Add the dependency:
 
 ## Usage
 
-### 1. Standard Responses
+### 1. Setup
+
+Ensure your Spring Boot application scans the SDK packages by adding `@SpringBootApplication(scanBasePackages = ...)`:
+
+```java
+@SpringBootApplication(scanBasePackages = {"com.your.app", "com.common.sdk"})
+public class YourApplication {
+    public static void main(String[] args) {
+        SpringApplication.run(YourApplication.class, args);
+    }
+}
+```
+
+### 2. Standard Responses
 
 Use `ResponseHandler` in your controllers to return standardized responses.
 
@@ -63,43 +76,75 @@ public class UserController {
 }
 ```
 
-**Response Format:**
+**Success Response Format:**
 
 ```json
 {
   "success": true,
   "message": "Success",
-  "data": { ... },
+  "data": {
+    "id": 1,
+    "name": "John Doe"
+  },
   "code": 200,
   "requestId": "123e4567-e89b-12d3-a456-426614174000"
 }
 ```
 
-### 2. Exception Handling
+### 3. Exception Handling
 
-The SDK automatically handles exceptions if you scan the package. Ensure your Spring Boot application scans the SDK packages:
+The SDK provides a `BaseGlobalExceptionHandler` that automatically handles:
+
+- **Validation Errors**: `MethodArgumentNotValidException` (Returns 422)
+- **Missing Parameters**: `MissingServletRequestParameterException` (Returns 440)
+- **Missing Headers**: `MissingRequestHeaderException` (Returns 442)
+- **Type Mismatch**: `MethodArgumentTypeMismatchException` (Returns 443)
+- **Malformed JSON**: `HttpMessageNotReadableException` (Returns 444)
+- **Method Not Allowed**: `HttpRequestMethodNotSupportedException` (Returns 405)
+- **Unsupported Media Type**: `HttpMediaTypeNotSupportedException` (Returns 415)
+- **Internal Errors**: `NullPointerException`, `IllegalArgumentException`, `IllegalStateException` (Returns 500/501/502/503)
+
+**Custom Exceptions:**
+
+Throw `BaseException` to return specific error codes:
 
 ```java
-@SpringBootApplication(scanBasePackages = {"com.your.app", "com.common.sdk"})
-public class YourApplication {
-    public static void main(String[] args) {
-        SpringApplication.run(YourApplication.class, args);
-    }
-}
-```
-
-Throw `BaseException` for custom errors:
-
-```java
+// Throwing a 404 Not Found
 throw new BaseException(404, "User not found");
 ```
 
-### 3. Correlation ID
+**Error Response Format:**
 
-The `CorrelationFilter` automatically checks for `x-correlation-id` header. If missing, it generates a new UUID. This ID is included in the MDC (Mapped Diagnostic Context) and the response body.
+```json
+{
+  "success": false,
+  "message": "User not found",
+  "data": null,
+  "code": 404,
+  "requestId": "123e4567-e89b-12d3-a456-426614174000"
+}
+```
+
+### 4. Distributed Tracing (Correlation ID)
+
+The `CorrelationFilter` automatically manages the `x-correlation-id` header.
+
+- **Incoming Request**: If `x-correlation-id` is present, it is used. If missing, a new UUID is generated.
+- **MDC**: The ID is added to the SLF4J MDC as `correlationId` for logging.
+- **Response**: The ID is returned in the `x-correlation-id` response header and the `requestId` field in the JSON body.
+
+### 5. Utilities
+
+**CommonUtils**
+
+Helper methods for accessing context information.
+
+```java
+// Get the current request's correlation ID
+String requestId = CommonUtils.getCurrentRequestId();
+```
 
 ## Requirements
 
 - Java 21
-- Spring Boot 3.x
-
+- Spring Boot 3.5.8
