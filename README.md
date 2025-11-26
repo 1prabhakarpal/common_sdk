@@ -30,7 +30,7 @@ Add the dependency:
 <dependency>
     <groupId>com.common.sdk</groupId>
     <artifactId>common_sdk</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.1</version>
 </dependency>
 ```
 
