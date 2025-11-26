@@ -103,6 +103,3 @@ The `CorrelationFilter` automatically checks for `x-correlation-id` header. If m
 - Java 21
 - Spring Boot 3.x
 
-## License
-
-[MIT](LICENSE)
